@@ -406,6 +406,11 @@ def train_scoring_model():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/')
+def health_check():
+    """Health check endpoint for Railway."""
+    return jsonify({"status": "healthy", "message": "API is running"}), 200
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5050))
     app.run(host="0.0.0.0", port=port, debug=(os.getenv('RAILWAY_ENVIRONMENT') != 'production'))
