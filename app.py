@@ -406,10 +406,31 @@ def train_scoring_model():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/components', methods=['GET'])
+def components_info():
+    """Information about the components endpoint for GET requests."""
+    return jsonify({
+        "error": "Method not allowed for GET requests. Please use POST with url, html, or image data.",
+        "example": {
+            "url": "https://example.com",
+            "html": "<html>...</html>",
+            "image": "base64_encoded_image_data"
+        }
+    }), 200
+
 @app.route('/')
 def health_check():
     """Health check endpoint for Railway."""
-    return jsonify({"status": "healthy", "message": "API is running"}), 200
+    return jsonify({
+        "status": "healthy",
+        "message": "Website Analyzer API is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "/": "GET - Health check",
+            "/components": "POST - Analyze website from URL, HTML, or image",
+            "/train-model": "POST - Train the scoring model with user feedback"
+        }
+    }), 200
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5050))
